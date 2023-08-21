@@ -166,7 +166,7 @@ public class Main {
 
 
 //   Вывод данных в соответствии с требованиями
-        if (checkarabrim.equals("оба арабские")) System.out.println(res + " new OK");
+        if (checkarabrim.equals("оба арабские")) System.out.println(res);
         else if (checkarabrim.equals("оба римские")) System.out.println(rimall[res]);
     }
 
