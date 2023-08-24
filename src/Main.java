@@ -1,13 +1,25 @@
 
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-// Задаем массив арабских чисел для вычислений arab[] от 1 до 10
+        public static void main(String[] args) {
+                java.util.Scanner in = new java.util.Scanner(System.in);
+                String input = in.nextLine();
+
+                calc(input);
+
+        }
+
+public static String calc(String input) {
+
+
+            String output="";
+
+        // Задаем массив арабских чисел для вычислений arab[] от 1 до 10
         int[] arab = new int[10];
         for (int i = 0; i < 10; ++i)
             arab[i]=i+1;
 
-// Задаем массив римских цифр rim[] от I до X
+        // Задаем массив римских цифр rim[] от I до X
         String[] rim = new String[10];
         rim[0]="I";
         rim[1]="II";
@@ -20,7 +32,7 @@ public class Main {
         rim[8]="IX";
         rim[9]="X";
 
-// Задаем массив арабских цифр от 1 до 10 (строки) arabstr[]
+        // Задаем массив арабских цифр от 1 до 10 (строки) arabstr[]
         String[] arabstr = new String[10];
         arabstr[0]="1";
         arabstr[1]="2";
@@ -33,47 +45,52 @@ public class Main {
         arabstr[8]="9";
         arabstr[9]="10";
 
-//  Ввод примера с клавиатуры в переменную userproblem
-
-        java.util.Scanner in = new java.util.Scanner(System.in);
-        String userproblem = in.nextLine();
+        //  Ввод примера с клавиатуры в переменную input
 
 
-//  Определяем наличие одного из символов операции (+ - . *)
-//  Потом определяем, где пробелы в массиве переменной userproblem
+
+        //  Определяем наличие одного из символов операции (+ - . *)
+        //  Потом определяем, где пробелы в массиве переменной input
 
         int probel1 = 10;
         int probel2 = 10;
         String symbolcheck = " +-*/";
         int m = 0;
-        for (int i = 0; i < userproblem.length(); i++) {
-            if ((userproblem.charAt(i) == symbolcheck.charAt(1)) || (userproblem.charAt(i) == symbolcheck.charAt(2)) || (userproblem.charAt(i) == symbolcheck.charAt(3)) || (userproblem.charAt(i) == symbolcheck.charAt(4))) m++;
+        String op1user = "";
+        String op2user = "";
+        String symboluser = "";
+
+        for (int i = 0; i < input.length(); i++) {
+            if ((input.charAt(i) == symbolcheck.charAt(1)) || (input.charAt(i) == symbolcheck.charAt(2)) || (input.charAt(i) == symbolcheck.charAt(3)) || (input.charAt(i) == symbolcheck.charAt(4))) m++;
         }
 
-        if (m == 0) throw new Exception("т.к. строка не является не является математической операцией");
-        if (m > 1) throw new Exception("т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+,-,/,*)");
+        if (m > 1) output = "throws Exception // т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+,-,/,*)";
 
-        for (int i = 0; i < userproblem.length(); i++) {
-            if (userproblem.charAt(i) == symbolcheck.charAt(0) && probel1 == 10 ) probel1 = i;
-            if (userproblem.charAt(i) == symbolcheck.charAt(0) && probel1 < 10 ) probel2 = i;
+        if (m != 0) {
+                for (int i = 0; i < input.length(); i++) {
+                        if (input.charAt(i) == symbolcheck.charAt(0) && probel1 == 10) probel1 = i;
+                        if (input.charAt(i) == symbolcheck.charAt(0) && probel1 < 10) probel2 = i;
 
+                }
+
+        //  проверка пробелов
+        //        System.out.println("Позиции пробелов в примере (начиная с нуля): " + probel1 + " " + probel2);
+
+                //  Записываем аргументы и знак действия в переменные op1user (0,1), symboluser(3,4), op2user (5)
+                op1user = input.substring(0, probel1);
+                symboluser = input.substring(probel1 + 1, probel1 + 2);
+                op2user = input.substring(probel2 + 1);
         }
 
-//  проверка пробелов
-//        System.out.println("Позиции пробелов в примере (начиная с нуля): " + probel1 + " " + probel2);
+        else output = "throws Exception // т.к. строка не является не является математической операцией";
 
-        //  Записываем аргументы и знак действия в переменные op1user (0,1), symboluser(3,4), op2user (5)
-        String op1user = userproblem.substring(0, probel1);
-        String symboluser = userproblem.substring(probel1+1, probel1+2);
-        String op2user = userproblem.substring(probel2+1);
-
-// Вычисляем с арабскими цифрами
+        // Вычисляем с арабскими цифрами
 
         int res=20;
         int op1=30;
-//  Рекомендуется сделать исключение "ФОРМАТ ввода данных" в ссответствии с Требованием 3
-//  См. строку 118 (снять знаки комментария, при этом заработают переменные
-//  op1format и op2format)
+        //  Рекомендуется сделать исключение "ФОРМАТ ввода данных" в ссответствии с Требованием 3
+        //  См. строку 118 (снять знаки комментария, при этом заработают переменные
+        //  op1format и op2format)
         String op1format="";
         int op2=40;
         String op2format="";
@@ -109,23 +126,25 @@ public class Main {
         if (checkarab1.equals("первое арабское") && (checkrim2.equals("второе римское"))) checkarabrim="первое арабское, второе римское";
         if (checkrim1.equals("первое римское") && (checkarab2.equals("второе арабское"))) checkarabrim="первое римское, второе арабское";
 
-        if (checkarabrim.equals("оба римские") && (op1 < op2) && symboluser.equals("-"))  throw new Exception("т.к. в римской системе нет отрицательных чисел");
-        else if (checkarabrim.equals("оба римские") && (op1 < op2) && symboluser.equals("/")) throw new Exception("т.к. в римской системе нет числа ноль");
-        else if (checkarabrim.equals("оба римские") && (op1 == op2) && symboluser.equals("-")) throw new Exception("т.к. в римской системе нет числа ноль");
+        if (checkarabrim.equals("оба римские") && (op1 < op2) && symboluser.equals("-"))  output = "throws Exception // т.к. в римской системе нет отрицательных чисел";
+        else if (checkarabrim.equals("оба римские") && (op1 < op2) && symboluser.equals("/")) output = "throws Exception // т.к. в римской системе нет числа ноль";
+        else if (checkarabrim.equals("оба римские") && (op1 == op2) && symboluser.equals("-")) output = "throws Exception // т.к. в римской системе нет числа ноль";
 
-        else if (checkarabrim.equals("первое римское, второе арабское")) throw new Exception("т.к. используются одновременно разные системы счисления");
-        else if (checkarabrim.equals("первое арабское, второе римское")) throw new Exception("т.к. используются одновременно разные системы счисления");
-        else if (op1format.equals("не от 1 до 10") || op2format.equals("не от 1 до 10")) throw new Exception ("т.к. формат как минимум одного из чисел не находится в диапазоне от 1 до 10 ");
+        else if (checkarabrim.equals("первое римское, второе арабское")) output = "throws Exception // т.к. используются одновременно разные системы счисления";
+        else if (checkarabrim.equals("первое арабское, второе римское")) output = "throws Exception // т.к. используются одновременно разные системы счисления";
+        else if (op1user.isEmpty() && op2user.isEmpty()) output = output;
 
+        else if (op1format.equals("не от 1 до 10") || op2format.equals("не от 1 до 10")) output = "throws Exception // т.к. формат как минимум одного из чисел не находится в диапазоне от 1 до 10";
 
-        if (symboluser.equals("+")) res = op1 + op2;
-        if (symboluser.equals("-")) res = op1 - op2;
-        if (symboluser.equals("*")) res = op1 * op2;
-        if (symboluser.equals("/")) res = op1 / op2;
+        if (output.isEmpty()) {
+                    if (symboluser.equals("+")) res = op1 + op2;
+                    if (symboluser.equals("-")) res = op1 - op2;
+                    if (symboluser.equals("*")) res = op1 * op2;
+                    if (symboluser.equals("/")) res = op1 / op2;
+        }
 
-
-// Расчет ответа для римских цифр
-// Задаем массив римских цифр rimdec[] - десятки
+        // Расчет ответа для римских цифр
+        // Задаем массив римских цифр rimdec[] - десятки
         String[] rimdec = new String[11];
         rimdec[0]="";
         rimdec[1]="X";
@@ -139,7 +158,7 @@ public class Main {
         rimdec[9]="XC";
         rimdec[10]="C";
 
-// Задаем массив римских цифр rimnum[] - единицы
+        // Задаем массив римских цифр rimnum[] - единицы
         String[] rimnum = new String[11];
         rimnum[0]="";
         rimnum[1]="I";
@@ -154,7 +173,7 @@ public class Main {
         rimnum[10]="X";
 
 
-// Задаем массив римских цифр от 1 до 100 rimall[]
+        // Задаем массив римских цифр от 1 до 100 rimall[]
         String[] rimall = new String[101];
         int k=0;
         for (int j = 0; j < 10; ++j)
@@ -164,11 +183,61 @@ public class Main {
         rimall[k]=rimdec[10]="C";
 
 
+        // Расчет ответа для арабских цифр
+        // Задаем массив римских цифр arabdec[] - десятки
+        String[] arabdec = new String[11];
+        arabdec[0]="";
+        arabdec[1]="1";
+        arabdec[2]="2";
+        arabdec[3]="3";
+        arabdec[4]="4";
+        arabdec[5]="5";
+        arabdec[6]="6";
+        arabdec[7]="7";
+        arabdec[8]="8";
+        arabdec[9]="9";
+        arabdec[10]="100";
 
-//   Вывод данных в соответствии с требованиями
-        if (checkarabrim.equals("оба арабские")) System.out.println(res);
-        else if (checkarabrim.equals("оба римские")) System.out.println(rimall[res]);
-    }
+        // Задаем массив арабских цифр arabnum[] - единицы
+        String[] arabnum = new String[11];
+        arabnum[0]="0";
+        arabnum[1]="1";
+        arabnum[2]="2";
+        arabnum[3]="3";
+        arabnum[4]="4";
+        arabnum[5]="5";
+        arabnum[6]="6";
+        arabnum[7]="7";
+        arabnum[8]="8";
+        arabnum[9]="9";
+        arabnum[10]="10";
+
+
+        // Задаем массив арабских цифр от 1 до 100 araball[]
+        String[] araball = new String[101];
+        int p = 0;
+        for (int j = 0; j < 10; ++j)
+            for (int i = 0; i < 10; ++i){
+                araball[p] = arabdec[j] + arabnum[i]; ++p;
+            }
+        araball[p] = arabdec[10]="C";
+
+
+
+        //   Вывод данных в соответствии с требованиями
+        if (output.isEmpty())
+                if (checkarabrim.equals("оба арабские") && (op1 < op2) && (symboluser.equals("-"))) {
+                        res = res * (-1);
+                        output = ("-" + araball[res]);
+                } else if (checkarabrim.equals("оба арабские")) output = (araball[res]);
+
+        else if (checkarabrim.equals("оба римские")) output = (rimall[res]);
+        else output = output;
+
+        System.out.println(output);
+        return input;
+}
+
 
 
 
